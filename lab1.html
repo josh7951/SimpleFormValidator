@@ -4,29 +4,80 @@
         <meta charset="utf-8">
         <title>Form Validation</title>
         <style>
-            label, input, textarea {
+            label {
                 display: block;
                 margin-top: 5px;
             }
+            #submitBtn {
+                display: block;
+                margin-top: 5px;
+            }
+            .valid {
+                color: green;
+            }
+
+            .invalid {
+                color: red;
+            }
         </style>
         <script>
-            window.addEventListener("load", formValidation);
-            function formValidation() {
-                console.log("Script loaded")
+            //let nameInput = document.getElementById("user");
+            let regex = /^[a-zA-Z]+$/i;
+
+            function maxWordLength(input, maxLength) {
+                var words = input.value.split(/[\s]+/);
+                if(words.length > maxLength)
+                console.log("max word count of " +maxLength+ " words reached.");
             }
+            function error(){
+                document.body.style.backgroundColor = "#ff8f98";
+            }
+            function usernameCondition () {
+                var userValid = regex.test(document.getElementById("user").value);
+                console.log("usernameCondition activated")
+                if(!userValid){
+                    document.getElementById("userResult").innerHTML = "Error: Username can only contain alphabet characters! >:(";
+                    document.getElementById("userResult").className = "invalid";
+                    console.log("fail");
+                    error();
+                }
+                else{
+                    document.getElementById("userResult").innerHTML = "Succ :)";
+                    document.getElementById("userResult").className = "valid";
+                    console.log("Success");
+                }
+            }
+            function passwordCondition () {
+                console.log("passwordCondition activated")
+            }
+            function studentNumberCondition() {
+                console.log("studentID Condition Activated")
+
+            }
+            function formValidation() {
+                console.log("DOM Ready, Script is safe to use! :)");
+                var button = document.getElementById('submitBtn');
+                button.addEventListener("click", () => {
+                    usernameCondition();
+                    passwordCondition();
+                    studentNumberCondition();
+                });
+            }
+            window.addEventListener("load", formValidation);
         </script>
     </head>
     <body>
-        <form onsubmit="return formValidation()">
+        <form>
             <label for="user">Username:</label>
-            <input type="text" id="user" for="user" placeholder="josham">
+            <input type="text" id="user" placeholder="josham">
+            <span id="userResult"></span>
             <label for="pass">Password:</label>
-            <input type="password" id="pass" for="pass">
+            <input type="password" id="pass">
             <label for="stuIdentity">Student ID:</label>
-            <input type="text" id="stuIdentity" for="stuIdentity" placeholder="159734628">
+            <input type="text" id="stuIdentity" maxlength="9" placeholder="159734628">
             <label for="msg">Write a message:</label>
-            <textarea name="msg" id="msg" cols="30" rows="10" placeholder="Write a message here . . . :)"></textarea>
-            <input type="button" value="Submit">
+            <textarea name="msg" id="msg" cols="30" rows="10" onChange="maxWordLength(this, 5)" placeholder="Write a message here . . . :)"></textarea>
+            <input id="submitBtn" type="button" value="Submit">
         </form>
     </body>
 </html>
