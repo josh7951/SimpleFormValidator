@@ -23,6 +23,7 @@
         <script>
             //let nameInput = document.getElementById("user");
             let regex = /^[a-zA-Z]+$/i;
+            let idRegex = /^[0-9]+$/;
 
             function maxWordLength(input, maxLength) {
                 var words = input.value.split(/[\s]+/);
@@ -36,23 +37,35 @@
                 var userValid = regex.test(document.getElementById("user").value);
                 console.log("usernameCondition activated")
                 if(!userValid){
-                    document.getElementById("userResult").innerHTML = "Error: Username can only contain alphabet characters! >:(";
-                    document.getElementById("userResult").className = "invalid";
-                    console.log("fail");
+                    document.getElementById("nameMsg").innerHTML = "Error: Username can only contain alphabet characters! >:(";
+                    document.getElementById("nameMsg").className = "invalid";
+                    console.log("name fail");
                     error();
                 }
                 else{
-                    document.getElementById("userResult").innerHTML = "Succ :)";
-                    document.getElementById("userResult").className = "valid";
-                    console.log("Success");
+                    document.getElementById("nameMsg").innerHTML = "Success :)";
+                    document.getElementById("nameMsg").className = "valid";
+                    console.log("name sucess");
                 }
             }
             function passwordCondition () {
                 console.log("passwordCondition activated")
+                
             }
             function studentNumberCondition() {
                 console.log("studentID Condition Activated")
-
+                var validID = idRegex.test(document.getElementById("stuIdentity").value);
+                if(!validID){
+                    document.getElementById("stuIdentityMsg").innerHTML = "Error: ID can only contain numbers! >:(";
+                    document.getElementById("stuIdentityMsg").className = "invalid";
+                    console.log("name fail");
+                    error();
+                }
+                else{
+                    document.getElementById("stuIdentityMsg").innerHTML = "Success :)";
+                    document.getElementById("stuIdentityMsg").className = "valid";
+                    console.log("id number sucess");
+                }
             }
             function formValidation() {
                 console.log("DOM Ready, Script is safe to use! :)");
@@ -68,13 +81,18 @@
     </head>
     <body>
         <form>
+            <!--Username Field-->
             <label for="user">Username:</label>
             <input type="text" id="user" placeholder="josham">
-            <span id="userResult"></span>
+            <span id="nameMsg"></span>
+            <!--Password Field-->
             <label for="pass">Password:</label>
             <input type="password" id="pass">
+            <!--Student ID Field-->
             <label for="stuIdentity">Student ID:</label>
             <input type="text" id="stuIdentity" maxlength="9" placeholder="159734628">
+            <span id="stuIdentityMsg"></span>
+            <!--Message Field-->
             <label for="msg">Write a message:</label>
             <textarea name="msg" id="msg" cols="30" rows="10" onChange="maxWordLength(this, 5)" placeholder="Write a message here . . . :)"></textarea>
             <input id="submitBtn" type="button" value="Submit">
