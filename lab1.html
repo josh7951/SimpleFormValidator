@@ -46,13 +46,16 @@
             .btn:hover {
                 background-color: #2dadd8;
                 color:white;
-
+            }
+            .counter{
+                display: inline;
             }
         </style>
         <script>
             let regex = /^[a-zA-Z]+$/i; //regular expression that only allows for any mix of upper and lower case characters from the english alphabet
             let idRegex = /^\d{9}$/; //regular expression that only allows number inputs that are 9 digits long
             let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/; //regular expression that looks for at least one uppercase, one lowercase, and one digit
+            let wordCountRegex = /\w+/g; //regular expression that looks for "words"
             //error function to change background color
             function error(){
                 document.getElementById("wrapper").className = "errorBG";
@@ -61,6 +64,18 @@
             function resetPage(){
                 var clr = document.getElementById("wrapper");
                 clr.classList.remove("errorBG");   
+            }
+            // Word Counter Function
+            function wordCounter(){
+                var count = document.getElementById("msg");
+                var result = document.getElementById("wordCount");
+                count.addEventListener('keyup', wordCounter);
+                var totalWords = count.value.split(wordCountRegex).length - 1;
+                result.innerText = totalWords;
+                var wordCountVal = totalWords;
+                if (wordCountVal >= 25){
+                    alert("word limit reached!");
+                }
             }
             //Username Conditions: can only contain alphabetical english characters
             function usernameCondition() {
@@ -113,6 +128,7 @@
                 console.log("DOM Ready, Script is safe to use! :)");
                 var button = document.getElementById('submitBtn');
                 var errExists = document.getElementsByClassName("errorBG");
+                wordCounter();
                 button.addEventListener("click", () => {
                     if (errExists){
                         resetPage();
@@ -148,6 +164,7 @@
                 <!--Message Field-->
                 <label for="msg">Write a message:</label>
                 <textarea id="msg" cols="30" rows="10" placeholder="Write a message here . . . :)"></textarea>
+                <p class="counter"><span id="wordCount"></span> / 25 Words</p>
                 <input id="submitBtn" class="btn" type="button" value="Submit">
             </form>
         </div>
