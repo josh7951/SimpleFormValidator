@@ -16,13 +16,12 @@
                 display: block;
                 margin-top: 5px;
             }
+            .valid:before{
+                content: "\2713";
+            }
             .valid {
                 color: green;
             }
-            .valid:before {
-                content: "\2713";
-            }
-
             .invalid {
                 color: red;
             }
@@ -50,6 +49,23 @@
             .counter{
                 display: inline;
             }
+            .displayStatus:before {
+                content: "\2713";
+            }
+            .displayStatus {
+                visibility: hidden;
+                display: inline-block;
+                border: 2px solid green;
+                background-color: green;
+                color: white;
+                padding: 5px;
+            }
+            .hidden{
+                display: none!important;
+            }
+            .unhidden{
+                visibility: visible!important;
+            }
         </style>
         <script>
             let regex = /^[a-zA-Z]+$/i; //regular expression that only allows for any mix of upper and lower case characters from the english alphabet
@@ -72,10 +88,6 @@
                 count.addEventListener('keyup', wordCounter);
                 var totalWords = count.value.split(wordCountRegex).length - 1;
                 result.innerText = totalWords;
-                /*var wordCountVal = totalWords;
-                if (wordCountVal >= 25){
-                    alert("word limit reached!");
-                } */
             }
             // Word Limit Function. Will prevent user from inputing more than 25 words.
             function inputLimit(event){
@@ -98,7 +110,7 @@
                     error();
                 }
                 else{
-                    nameMsg.innerHTML = "Success :)";
+                    nameMsg.innerHTML = "";
                     nameMsg.className = "valid";
                 }
             }
@@ -113,7 +125,7 @@
                     error();
                 }
                 else{
-                    passMsg.innerHTML = "Success :)";
+                    passMsg.innerHTML = "";
                     passMsg.className = "valid";
                 }
                 
@@ -129,7 +141,7 @@
                     error();
                 }
                 else{
-                    studMsg.innerHTML = "Success :)";
+                    studMsg.innerHTML = "";
                     studMsg.className = "valid";
                 }
             }
@@ -154,6 +166,30 @@
                         passwordCondition();
                         studentNumberCondition();
                     }
+                    var toggle = document.getElementById("successBox");
+                    var span = document.querySelector('span');
+                    var docuCheck = span.classList.contains('invalid');
+                    var toggle = document.getElementById("successBox");
+                    if (docuCheck == true) {
+                        console.log("has an invalid");
+                        toggle.classList.remove("unhidden");
+                        toggle.classList.add("hidden");
+                    }
+                    else{
+                        console.log("all valid");
+                        toggle.classList.remove("hidden");
+                        toggle.classList.add("unhidden");
+                    }
+                    // if (docuCheck == true) {
+                    //     console.log("has an invalid");
+                    //     toggle.classList.remove("unhidden");
+                    //     toggle.classList.add("hidden");
+                    // }
+                    // else{
+                    //     console.log("all valid");
+                    //     toggle.classList.remove("hidden");
+                    //     toggle.classList.add("unhidden");
+                    // }
                 });
             }
             window.addEventListener("load", formValidation);
@@ -179,6 +215,7 @@
                 <textarea id="msg" cols="30" rows="10" placeholder="Write a message here . . . :)"></textarea>
                 <p class="counter"><span id="wordCount"></span> / 25 Words</p>
                 <input id="submitBtn" class="btn" type="button" value="Submit">
+                <div id="successBox" class="displayStatus">Success :)</div>
             </form>
         </div>
     </body>
