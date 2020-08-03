@@ -72,9 +72,19 @@
                 count.addEventListener('keyup', wordCounter);
                 var totalWords = count.value.split(wordCountRegex).length - 1;
                 result.innerText = totalWords;
-                var wordCountVal = totalWords;
+                /*var wordCountVal = totalWords;
                 if (wordCountVal >= 25){
                     alert("word limit reached!");
+                } */
+            }
+            // Word Limit Function. Will prevent user from inputing more than 25 words.
+            function inputLimit(event){
+                var backspace = 8;
+                var del = 46;
+                var excludedInput = [backspace, del];
+                var userInput = this.value.split(' ');
+                if (userInput.length > 25 && excludedInput.indexOf(event.keyCode) == -1){
+                    event.preventDefault();
                 }
             }
             //Username Conditions: can only contain alphabetical english characters
@@ -128,6 +138,9 @@
                 console.log("DOM Ready, Script is safe to use! :)");
                 var button = document.getElementById('submitBtn');
                 var errExists = document.getElementsByClassName("errorBG");
+                var txtArea = document.getElementById("msg");
+                txtArea.addEventListener("keydown", inputLimit);
+                txtArea.addEventListener("keyup", inputLimit);
                 wordCounter();
                 button.addEventListener("click", () => {
                     if (errExists){
