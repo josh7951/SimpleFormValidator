@@ -17,9 +17,22 @@
             label {
                 display: block;
                 margin-top: 5px;
+                font-weight: bold;
             }
             em {
                 font-size: 14px;
+            }
+            input, textarea {
+            padding: 5px 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1.5px solid #ccc;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            outline: none;
+            }
+            input:focus, textarea:focus {
+            border: 2px solid #2dadd8;
             }
             .valid:before{
                 content: "\2713";
@@ -53,6 +66,9 @@
             }
             .counter{
                 display: inline;
+                position: relative;
+                left: 0px;
+                top: -8px;
             }
             .displayStatus:before {
                 content: "\2713";
@@ -60,15 +76,14 @@
             .displayStatus {
                 visibility: hidden;
                 display: inline-block;
-                border: 2px solid green;
-                background-color: green;
+                border: 2px solid #00cc00;
+                border-radius: 10px;
+                background-color: #00cc00;
                 color: white;
-                padding: 5px;
+                font-weight: bold;
+                padding: 10px;
             }
-            .hidden{
-                display: none!important;
-            }
-            .unhidden{
+            .visible{
                 visibility: visible!important;
             }
         </style>
@@ -95,18 +110,17 @@
                 result.innerText = 25 - totalWords;
             }
             // Word Limit Function. Will prevent user from inputing more than 25 words.
-            function inputLimit(event){
+            function inputLimit(textareaInput){
                 var backspace = 8;
                 var del = 46;
-                var excludedInput = [backspace, del];
+                var excludedInput = [backspace, del]; // this will allow the user to use delete or backspace keys when the Word Limit has been reached
                 var userInput = this.value.split(' ');
-                if (userInput.length > 25 && excludedInput.indexOf(event.keyCode) == -1){
-                    event.preventDefault();
+                if (userInput.length > 25 && excludedInput.indexOf(textareaInput.keyCode) == -1){
+                    textareaInput.preventDefault();// this will prevent the user from adding any additional inputs once word limit is reached.
                 }
             }
             //Username Conditions: can only contain alphabetical english characters
             function usernameCondition() {
-                console.log("Checking username conditions . . .")
                 var userValid = regex.test(document.getElementById("user").value);
                 var nameMsg = document.getElementById("nameMsg");
                 if(!userValid){
@@ -121,7 +135,6 @@
             }
             //Password Condititions: must contain one upper case, one lowercase, and one number
             function passwordCondition() {
-                console.log("Checking Password conditions . . .");
                 var validPassword = passwordRegex.test(document.getElementById("pass").value);
                 var passMsg = document.getElementById("passMsg");
                 if(!validPassword){
@@ -133,11 +146,9 @@
                     passMsg.innerHTML = "";
                     passMsg.className = "valid";
                 }
-                
             }
             //Sudent ID conditions: can only contain numbers 9 digits long
             function studentNumberCondition() {
-                console.log("Checking Student ID conditions . . .")
                 var validID = idRegex.test(document.getElementById("stuIdentity").value);
                 var studMsg = document.getElementById("stuIdentityMsg");
                 if(!validID){
@@ -160,6 +171,8 @@
                 txtArea.addEventListener("keyup", inputLimit);
                 wordCounter();
                 button.addEventListener("click", () => {
+                    //conditions to call to "reset" (or remove the red background) the page when you click the submit button more than once
+                    console.log(errExists);
                     if (errExists){
                         resetPage();
                         usernameCondition();
@@ -172,21 +185,20 @@
                         studentNumberCondition();
                     }
                     var toggle = document.getElementById("successBox");
-                    //var span = document.querySelector('span');
-                    var docuCheck = document.getElementsByClassName('invalid')[0];
+                    var docuCheck = document.getElementsByClassName('invalid')[0]; //this actually returns the entire tag so I made the condition below set to check if it is undefined
                     var displayToggle = document.getElementById("successBox");
+                    //this will toggle the success box at the bottom of the form on and off depending on whether or not an error exists
                     if (docuCheck === undefined) {
-                        console.log("all valid");
-                        displayToggle.classList.toggle("hidden", false);
-                        displayToggle.classList.toggle("unhidden", true);
+                        displayToggle.classList.toggle("visible", true);
+                        displayToggle.innerHTML = " Success! :)";
                     }
                     else{
-                        console.log("has invalid");
-                        displayToggle.classList.toggle("unhidden", false);
-                        displayToggle.classList.toggle("hidden", true);
+                        displayToggle.classList.toggle("visible", false);
+                        displayToggle.innerHTML = "";
                     }
                 });
             }
+            //ensures DOM is fully loaded before it allows formValidation() to be used
             window.addEventListener("load", formValidation);
         </script>
     </head>
@@ -210,7 +222,8 @@
                 <textarea id="msg" cols="30" rows="10" placeholder="Write a message here . . . :)"></textarea>
                 <p class="counter"><span id="wordCount"></span> Words Remaining</p>
                 <input id="submitBtn" class="btn" type="button" value="Submit">
-                <div id="successBox" class="displayStatus"> Success :)</div>
+                <!--Hidden DIV until the form "submits" successfully-->
+                <div id="successBox" class="displayStatus"></div>
             </form>
         </div>
     </body>
