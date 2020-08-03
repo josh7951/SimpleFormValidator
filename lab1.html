@@ -92,7 +92,7 @@
                 var result = document.getElementById("wordCount");
                 count.addEventListener('keyup', wordCounter);
                 var totalWords = count.value.split(wordCountRegex).length - 1;
-                result.innerText = totalWords;
+                result.innerText = 25 - totalWords;
             }
             // Word Limit Function. Will prevent user from inputing more than 25 words.
             function inputLimit(event){
@@ -208,9 +208,9 @@
                 <!--Message Field-->
                 <label for="msg">Write a message:</label>
                 <textarea id="msg" cols="30" rows="10" placeholder="Write a message here . . . :)"></textarea>
-                <p class="counter"><span id="wordCount"></span> / 25 Words</p>
+                <p class="counter"><span id="wordCount"></span> Words Remaining</p>
                 <input id="submitBtn" class="btn" type="button" value="Submit">
-                <div id="successBox" class="displayStatus">Success :)</div>
+                <div id="successBox" class="displayStatus"> Success :)</div>
             </form>
         </div>
     </body>
