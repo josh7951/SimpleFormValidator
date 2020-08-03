@@ -5,6 +5,8 @@
         <title>Form Validation</title>
         <style>
             html, body {
+                font-family:Arial, Helvetica, sans-serif;
+                font-size: 16px;
                 margin: 0px;
                 height: 100%;
                 overflow: hidden;
@@ -15,6 +17,9 @@
             label {
                 display: block;
                 margin-top: 5px;
+            }
+            em {
+                font-size: 14px;
             }
             .valid:before{
                 content: "\2713";
@@ -105,7 +110,7 @@
                 var userValid = regex.test(document.getElementById("user").value);
                 var nameMsg = document.getElementById("nameMsg");
                 if(!userValid){
-                    nameMsg.innerHTML = "Error: Username can only contain alphabet characters! >:(";
+                    nameMsg.innerHTML = "<strong>Error: </strong>Username can only contain alphabet characters! <em>e.g. joshmej</em>";
                     nameMsg.className = "invalid";
                     error();
                 }
@@ -120,7 +125,7 @@
                 var validPassword = passwordRegex.test(document.getElementById("pass").value);
                 var passMsg = document.getElementById("passMsg");
                 if(!validPassword){
-                    passMsg.innerHTML = "Error:  >:(";
+                    passMsg.innerHTML = "<strong>Error: </strong>Password MUST contain one Uppercase, one Lowercase, and one Number. <em>e.g.Comp484</em>";
                     passMsg.className = "invalid";
                     error();
                 }
@@ -136,7 +141,7 @@
                 var validID = idRegex.test(document.getElementById("stuIdentity").value);
                 var studMsg = document.getElementById("stuIdentityMsg");
                 if(!validID){
-                    studMsg.innerHTML = "Error: Student ID can only contain numbers and must be 9 digits long! >:(";
+                    studMsg.innerHTML = "<strong>Error: </strong>Student ID can only contain numbers and must be 9 digits long!";
                     studMsg.className = "invalid";
                     error();
                 }
@@ -167,29 +172,19 @@
                         studentNumberCondition();
                     }
                     var toggle = document.getElementById("successBox");
-                    var span = document.querySelector('span');
-                    var docuCheck = span.classList.contains('invalid');
-                    var toggle = document.getElementById("successBox");
-                    if (docuCheck == true) {
-                        console.log("has an invalid");
-                        toggle.classList.remove("unhidden");
-                        toggle.classList.add("hidden");
+                    //var span = document.querySelector('span');
+                    var docuCheck = document.getElementsByClassName('invalid')[0];
+                    var displayToggle = document.getElementById("successBox");
+                    if (docuCheck === undefined) {
+                        console.log("all valid");
+                        displayToggle.classList.toggle("hidden", false);
+                        displayToggle.classList.toggle("unhidden", true);
                     }
                     else{
-                        console.log("all valid");
-                        toggle.classList.remove("hidden");
-                        toggle.classList.add("unhidden");
+                        console.log("has invalid");
+                        displayToggle.classList.toggle("unhidden", false);
+                        displayToggle.classList.toggle("hidden", true);
                     }
-                    // if (docuCheck == true) {
-                    //     console.log("has an invalid");
-                    //     toggle.classList.remove("unhidden");
-                    //     toggle.classList.add("hidden");
-                    // }
-                    // else{
-                    //     console.log("all valid");
-                    //     toggle.classList.remove("hidden");
-                    //     toggle.classList.add("unhidden");
-                    // }
                 });
             }
             window.addEventListener("load", formValidation);
