@@ -48,17 +48,16 @@
                 height: 100%;
                 overflow: hidden;
             }
-            #submitBtn {
+            .btn {
                 display: block;
                 margin-top: 5px;
-            }
-            .btn {
                 background-color: white;
                 color: black;
                 border: 2px solid #2dadd8;
                 border-radius: 5px;
                 margin: 4px 2px;
                 transition-duration: 0.4s;
+                cursor: pointer;
             }
             .btn:hover {
                 background-color: #2dadd8;
@@ -113,7 +112,11 @@
             function inputLimit(textareaInput){
                 var backspace = 8;
                 var del = 46;
-                var excludedInput = [backspace, del]; // this will allow the user to use delete or backspace keys when the Word Limit has been reached
+                var leftArrow = 37;
+                var upArrow = 38;
+                var rightArrow = 39;
+                var downArrow = 40;
+                var excludedInput = [backspace, del, leftArrow, upArrow, rightArrow, downArrow]; // this will allow the user to use delete or backspace keys and traverse with arrow keys when the Word Limit has been reached
                 var userInput = this.value.split(' ');
                 if (userInput.length > 25 && excludedInput.indexOf(textareaInput.keyCode) == -1){
                     textareaInput.preventDefault();// this will prevent the user from adding any additional inputs once word limit is reached.
