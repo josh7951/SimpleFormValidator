@@ -87,10 +87,6 @@
             }
         </style>
         <script>
-            let regex = /^[a-zA-Z]+$/i; //regular expression that only allows for any mix of upper and lower case characters from the english alphabet
-            let idRegex = /^\d{9}$/; //regular expression that only allows number inputs that are 9 digits long
-            let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/; //regular expression that looks for at least one uppercase, one lowercase, and one digit
-            let wordCountRegex = /\w+/g; //regular expression that looks for "words"
             //error function to change background color
             function error(){
                 document.getElementById("wrapper").className = "errorBG";
@@ -102,6 +98,7 @@
             }
             // Word Counter Function
             function wordCounter(){
+                let wordCountRegex = /\w+/g; //regular expression that looks for "words"
                 var count = document.getElementById("msg");
                 var result = document.getElementById("wordCount");
                 count.addEventListener('keyup', wordCounter);
@@ -117,16 +114,18 @@
                 var rightArrow = 39;
                 var downArrow = 40;
                 var excludedInput = [backspace, del, leftArrow, upArrow, rightArrow, downArrow]; // this will allow the user to use delete or backspace keys and traverse with arrow keys when the Word Limit has been reached
-                var userInput = this.value.split(' ');
+                var userInput = this.value.split(/\w+/g);
                 if (userInput.length > 25 && excludedInput.indexOf(textareaInput.keyCode) == -1){
                     textareaInput.preventDefault();// this will prevent the user from adding any additional inputs once word limit is reached.
                 }
             }
             //Username Conditions: can only contain alphabetical english characters
             function usernameCondition() {
+                let regex = /^[a-zA-Z]+$/i; //regular expression that only allows for any mix of upper and lower case characters from the english alphabet
                 var userValid = regex.test(document.getElementById("user").value);
                 var nameMsg = document.getElementById("nameMsg");
-                if(!userValid){
+                //the if else conditions for each function will display an error msg if regex condition is not matched, else will display green checkmark
+                if(!userValid){ 
                     nameMsg.innerHTML = "<strong>Error: </strong>Username can only contain alphabet characters! <em>e.g. joshmej</em>";
                     nameMsg.className = "invalid";
                     error();
@@ -138,6 +137,7 @@
             }
             //Password Condititions: must contain one upper case, one lowercase, and one number
             function passwordCondition() {
+                let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/; //regular expression that looks for at least one uppercase, one lowercase, and one digit
                 var validPassword = passwordRegex.test(document.getElementById("pass").value);
                 var passMsg = document.getElementById("passMsg");
                 if(!validPassword){
@@ -148,10 +148,11 @@
                 else{
                     passMsg.innerHTML = "";
                     passMsg.className = "valid";
-                }
+                } 
             }
             //Sudent ID conditions: can only contain numbers 9 digits long
             function studentNumberCondition() {
+                let idRegex = /^\d{9}$/; //regular expression that only allows number inputs that are 9 digits long
                 var validID = idRegex.test(document.getElementById("stuIdentity").value);
                 var studMsg = document.getElementById("stuIdentityMsg");
                 if(!validID){
@@ -175,7 +176,6 @@
                 wordCounter();
                 button.addEventListener("click", () => {
                     //conditions to call to "reset" (or remove the red background) the page when you click the submit button more than once
-                    console.log(errExists);
                     if (errExists){
                         resetPage();
                         usernameCondition();
@@ -191,6 +191,7 @@
                     var docuCheck = document.getElementsByClassName('invalid')[0]; //this actually returns the entire tag so I made the condition below set to check if it is undefined
                     var displayToggle = document.getElementById("successBox");
                     //this will toggle the success box at the bottom of the form on and off depending on whether or not an error exists
+                    //with this if else condition, if will add the success box if docuCheck does not find anything that contains the class invalid, else will keep it hidden/remove it
                     if (docuCheck === undefined) {
                         displayToggle.classList.toggle("visible", true);
                         displayToggle.innerHTML = " Success! :)";
