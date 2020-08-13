@@ -39,6 +39,6 @@
   <strong><u>FOR VALID FORMS</u></strong>
   <p>If the form is valid (i.e. abides by the rules above), then an easy-­to-­see message should be tastefully displayed at the bottom of the screen in its own div. Nothing else should be displayed in this div. While the user is filling out the form, this div should be empty (have no text). This message can say, for example: “SUCCESS!” <strong>Again, the form should not actually be submitted!</strong>
   </p>
-<strong><u>FOR VALID FORMS</u></strong>
+<strong><u>FOR INVALID FORMS</u></strong>
   <p>If the form is invalid, the page’s background should change color (this can be accomplished with a div that encloses all other content, if you like), and error text should be added to the page (previously invisible/not displayed) that details all the current errors. The error text should stand out and be colored differently than any other elements on the page. (You may change the class attribute of the error text and body/div elements using JavaScript to accomplish this effect, where the classes are defined in embedded CSS, also located in the <head> section, like the JavaScript code, see below….) Everything invalid about the form entries should be displayed as error text.
   </p>
